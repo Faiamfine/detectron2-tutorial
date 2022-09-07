@@ -1,9 +1,20 @@
 _BASE_: "../Base-RCNN-FPN.yaml"
 MODEL:
-  WEIGHTS: "detectron2://ImageNetPretrained/MSRA/R-50.pkl"
+  WEIGHTS: "/home/faii/detectron2/tools/output/model_0009999.pth"
   MASK_ON: True
-  RESNETS:
-    DEPTH: 50
+  ROI_HEADS:
+    BATCH_SIZE_PER_IMAGE: 128
+  RETINANET:
+    NUM_CLASSES: 2
+DATASETS:
+  TRAIN: ("car_dataset_train",)
+  TEST: ("car_dataset_val",)
 SOLVER:
+  IMS_PER_BATCH: 2
+  WARMUP_ITERS: 700
   STEPS: (210000, 250000)
-  MAX_ITER: 270000
+  MAX_ITER: 800
+  GAMMA: 0.05
+  BASE_LR: 0.001
+TEST:
+  EVAL_PERIOD: 1

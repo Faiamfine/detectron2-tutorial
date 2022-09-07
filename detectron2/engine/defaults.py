@@ -474,6 +474,10 @@ class DefaultTrainer(TrainerBase):
         """
         return default_writers(self.cfg.OUTPUT_DIR, self.max_iter)
 
+    def mock_train(self):
+        print(self.start_iter, self.max_iter)
+        super().train(self.start_iter, self.max_iter)
+
     def train(self):
         """
         Run training.
@@ -481,6 +485,7 @@ class DefaultTrainer(TrainerBase):
         Returns:
             OrderedDict of results, if evaluation is enabled. Otherwise None.
         """
+        print(self.start_iter, self.max_iter)
         super().train(self.start_iter, self.max_iter)
         if len(self.cfg.TEST.EXPECTED_RESULTS) and comm.is_main_process():
             assert hasattr(

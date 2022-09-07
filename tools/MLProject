@@ -1,0 +1,21 @@
+name: detectron2
+entry_points:
+    train:
+        parameters:
+            config_file: path
+            num_gpu: int
+        command: "python3 wrapper_runner.py --entry_point train --config_file {config_file} --num_gpu {num_gpu}"
+   
+    validate:
+        parameters:
+            config_file: path
+            weight_file: path
+        command: "python3 wrapper_runner.py --entry_point validate --config_file {config_file} --eval-only MODEL.WEIGHTS {weight_file}"
+
+    predict:
+        parameters:
+            config_file: path 
+            weight_file: path
+            pred_list: path
+        command: "python3 demo.py --entry_point validate --config_file {config_file} --weight_file {weight_file} --pred_list {pred_list}"
+

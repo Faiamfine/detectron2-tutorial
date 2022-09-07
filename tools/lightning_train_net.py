@@ -34,10 +34,10 @@ from detectron2.utils.logger import setup_logger
 import pytorch_lightning as pl  # type: ignore
 from pytorch_lightning import LightningDataModule, LightningModule
 from train_net import build_evaluator
+from annotation import annotate
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger("detectron2")
-
 
 class TrainingModule(LightningModule):
     def __init__(self, cfg):
@@ -106,9 +106,9 @@ class TrainingModule(LightningModule):
                 writer.write()
         return sum(loss_dict.values())
 
-    def training_step_end(self, training_step_outpus):
+    def training_step_end(self, training_step_outputs):
         self.data_start = time.perf_counter()
-        return training_step_outpus
+        return training_step_outputs
 
     def training_epoch_end(self, training_step_outputs):
         self.iteration_timer.after_train()
@@ -225,7 +225,7 @@ def setup(args):
     Create configs and perform basic setups.
     """
     cfg = get_cfg()
-    cfg.merge_from_file(args.config_file)
+    cfg.merge_from_file('/home/faii/detectron2/configs/COCO-InstanceSegmentation/mask_rcnn_R_50_FPN_3x.yaml')
     cfg.merge_from_list(args.opts)
     cfg.freeze()
     default_setup(cfg, args)

@@ -18,14 +18,14 @@ You may want to write your own script with your datasets and other customization
 Compared to "train_net.py", this script supports fewer default features.
 It also includes fewer abstraction, therefore is easier to add custom logic.
 """
-
-import logging
 import os
-from collections import OrderedDict
 import torch
-from torch.nn.parallel import DistributedDataParallel
-
+import logging
+import mlflow
+from collections import OrderedDict
 import detectron2.utils.comm as comm
+from detectron2.engine import DefaultTrainer
+from torch.nn.parallel import DistributedDataParallel
 from detectron2.checkpoint import DetectionCheckpointer, PeriodicCheckpointer
 from detectron2.config import get_cfg
 from detectron2.data import (
@@ -46,12 +46,25 @@ from detectron2.evaluation import (
     inference_on_dataset,
     print_csv_format,
 )
+import argparse
+import mlflow.pytorch
+from annotation import annotate
 from detectron2.modeling import build_model
-from detectron2.solver import build_lr_scheduler, build_optimizer
 from detectron2.utils.events import EventStorage
+from detectron2.solver import build_lr_scheduler, build_optimizer
+
+parser = argparse.ArgumentParser()
+parser.add_argument('--entry_point', type=str, help='entrypoint name [ train, validate, predict ]')
+parser.add_argument('--config_file', type=str, help='config file path')
+parser.add_argument('--pred_list', type=str, help='list of images to predict')
+
+os.environ['AWS_ACCESS_KEY_ID'] = 'admin'
+os.environ['AWS_SECRET_ACCESS_KEY'] = 'sample_key'
+os.environ['MLFLOW_S3_ENDPOINT_URL'] = ''
+#os.environ['MLFLOW_S3_ENDPOINT_URL'] = 'http://192.168.1.12:9000'
+os.environ['MLFLOW_TRACKING_URI'] = 'http://192.168.1.32:5000'
 
 logger = logging.getLogger("detectron2")
-
 
 def get_evaluator(cfg, dataset_name, output_folder=None):
     """

@@ -46,8 +46,14 @@ _darcs
 
 # project dirs
 /detectron2/model_zoo/configs
+/detectron2/output2
+/detectron2/datasets
 /datasets/*
 !/datasets/*.*
 /projects/*/datasets
 /models
 /snippet
+
+#weight
+.pth
+

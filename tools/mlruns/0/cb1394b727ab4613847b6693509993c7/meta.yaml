@@ -1,0 +1,15 @@
+artifact_uri: file:///home/faii/detectron2/tools/mlruns/0/cb1394b727ab4613847b6693509993c7/artifacts
+end_time: 1662363646939
+entry_point_name: ''
+experiment_id: '0'
+lifecycle_stage: active
+name: ''
+run_id: cb1394b727ab4613847b6693509993c7
+run_uuid: cb1394b727ab4613847b6693509993c7
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1662363644194
+status: 4
+tags: []
+user_id: faii
